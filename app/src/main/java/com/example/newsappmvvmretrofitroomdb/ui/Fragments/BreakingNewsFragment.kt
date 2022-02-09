@@ -32,7 +32,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View?  {
 
         binding = FragmentBreakingNewsBinding.inflate(inflater, container, false)
 

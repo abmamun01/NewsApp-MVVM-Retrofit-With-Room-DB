@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsappmvvmusingkotlin.Repository.NewsRepository
 import com.example.newsappmvvmusingkotlin.Utils.Resource
+import com.example.newsappmvvmusingkotlin.ui.Models.Article
 import com.example.newsappmvvmusingkotlin.ui.Models.NewsResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,11 +43,11 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
 
         viewModelScope.launch {
 
-        searchNews.postValue(Resource.Loading())
-        val response = newsRepository.searchNews(searchQuery, searchNewsPage)
-        searchNews.postValue(handleSearchNewsResponse(response))
+            searchNews.postValue(Resource.Loading())
+            val response = newsRepository.searchNews(searchQuery, searchNewsPage)
+            searchNews.postValue(handleSearchNewsResponse(response))
 
-    }
+        }
 
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
 
@@ -67,4 +68,18 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
         }
         return Resource.Error(response.message())
     }
+
+
+    fun saveArticle(article: Article) = viewModelScope.launch {
+        newsRepository.upsert(article)
+    }
+
+    fun getSavedNews() = newsRepository.getSavedNews()
+
+
+    fun deleteArticle(article: Article) = viewModelScope.launch {
+        newsRepository.deleteArticle(article)
+    }
+
+
 }
